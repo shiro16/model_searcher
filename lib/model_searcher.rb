@@ -1,4 +1,5 @@
 require "active_record"
+require 'active_support'
 require "model_searcher/version"
 
 module ModelSearcher
@@ -22,7 +23,8 @@ module ModelSearcher
 
     def require_models
       Dir.glob(File.expand_path("#{file_path}/*.rb")).each do |model_file|
-        require model_file unless Object.constants.include? File.basename(model_file, '.rb').classify.to_sym
+        klass = ActiveSupport::Inflector.classify(File.basename(model_file, '.rb'))
+        require model_file unless Object.constants.include?(klass.to_sym)
       end
 
       constants = Object.constants.map do |name|
