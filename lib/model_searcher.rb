@@ -22,11 +22,11 @@ module ModelSearcher
 
     def require_models
       Dir.glob(File.expand_path("#{file_path}/*.rb")).each do |model_file|
-        require model_file
+        require model_file unless Object.constants.include? File.basename(model_file, '.rb').classify.to_sym
       end
 
       constants = Object.constants.map do |name|
-        Object.const_get(name)
+        Object.const_get(name) unless name == :Config
       end
 
       constants.each_with_object({}) do |constans, models|
