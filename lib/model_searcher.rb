@@ -1,6 +1,7 @@
 require "active_record"
 require 'active_support'
 require "model_searcher/version"
+require "model_searcher/cli"
 
 module ModelSearcher
   class << self
